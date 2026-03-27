@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect 
 from django.contrib.auth import authenticate, login, logout 
 from django.contrib import messages 
+from django.views.decorators.csrf import csrf_protect 
 from .models import CustomUser 
  
+@csrf_protect
 def signup_view(request): 
     if request.method == 'POST': 
         first_name = request.POST['first_name'] 
@@ -33,6 +35,7 @@ def signup_view(request):
         messages.success(request, 'Signup successful!') 
         return redirect('index') 
     return render(request, 'authentication/register.html')
+@csrf_protect
 def login_view(request): 
     if request.method == 'POST': 
         email = request.POST['email'] 

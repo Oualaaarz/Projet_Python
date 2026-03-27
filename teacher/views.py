@@ -2,14 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Teacher
 from department.models import Department
 from django.contrib import messages
+from school.decorators import teacher_required
 
 # 🔴 LIST
+@teacher_required
 def teacher_list(request):
     teachers = Teacher.objects.all()
     return render(request, 'teacher/teacher_list.html', {'teachers': teachers})
 
 
 # 🔴 ADD
+@teacher_required
 def add_teacher(request):
     departments = Department.objects.all()
 
@@ -35,6 +38,7 @@ def add_teacher(request):
 
 
 # 🔴 EDIT
+@teacher_required
 def edit_teacher(request, id):
     teacher = get_object_or_404(Teacher, id=id)
     departments = Department.objects.all()
@@ -57,12 +61,15 @@ def edit_teacher(request, id):
 
 
 # 🔴 DELETE
+@teacher_required
 def delete_teacher(request, id):
     teacher = get_object_or_404(Teacher, id=id)
     teacher.delete()
 
     messages.success(request, "Teacher deleted successfully!")
     return redirect('teacher_list')
+
+@teacher_required
 def teacher_detail(request, id):
     teacher = get_object_or_404(Teacher, id=id)
     return render(request, 'teacher/teacher_detail.html', {'teacher': teacher})

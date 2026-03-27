@@ -1,18 +1,76 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse 
 from django.contrib import messages
+from school.decorators import admin_required, any_authenticated_required
 from .models import Student, Parent 
+from teacher.models import Teacher
+from department.models import Department
+from subject.models import Subject
+from holidays.models import Holiday
+from exams.models import Exam
+from timetable.models import Timetable
 
+@any_authenticated_required
 def teacher_dashboard(request):
-    return render(request, 'teacher/teacher-dashboard.html')
+    if not (request.user.is_teacher or request.user.is_admin):
+        messages.error(request, "Accès réservé aux enseignants et administrateurs.")
+        return redirect('student_dashboard')
+    # Gather statistics
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
+    total_departments = Department.objects.count()
+    total_subjects = Subject.objects.count()
+    total_holidays = Holiday.objects.count()
+    total_exams = Exam.objects.count()
+    total_timetable = Timetable.objects.count()
+    
+    # Get recent students
+    recent_students = Student.objects.all().order_by('-id')[:5]
+    
+    context = {
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+        'total_departments': total_departments,
+        'total_subjects': total_subjects,
+        'total_holidays': total_holidays,
+        'total_exams': total_exams,
+        'total_timetable': total_timetable,
+        'recent_students': recent_students,
+    }
+    return render(request, 'teacher/teacher-dashboard.html', context)
 
+@any_authenticated_required
 def student_dashboard(request):
-    return render(request, 'students/student-dashboard.html')
+    # Gather statistics
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
+    total_departments = Department.objects.count()
+    total_subjects = Subject.objects.count()
+    total_holidays = Holiday.objects.count()
+    total_exams = Exam.objects.count()
+    total_timetable = Timetable.objects.count()
+    
+    # Get recent students
+    recent_students = Student.objects.all().order_by('-id')[:5]
+    
+    context = {
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+        'total_departments': total_departments,
+        'total_subjects': total_subjects,
+        'total_holidays': total_holidays,
+        'total_exams': total_exams,
+        'total_timetable': total_timetable,
+        'recent_students': recent_students,
+    }
+    return render(request, 'students/student-dashboard.html', context)
 
+@admin_required
 def student_list(request): 
     students = Student.objects.all()
     return render(request, 'students/students.html', {'students': students})
 
+@admin_required
 def edit_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     parent = student.parent  # <-- AJOUTÉ pour le template
@@ -54,9 +112,11 @@ def edit_student(request, student_id):
 
     return render(request, 'students/edit-student.html', {'student': student, 'parent': parent})
 
+@any_authenticated_required
 def view_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
     return render(request, 'students/student-details.html', {'student': student})
+@admin_required
 def delete_student(request, student_id):
     student = get_object_or_404(Student, id=student_id)
 
@@ -66,6 +126,7 @@ def delete_student(request, student_id):
 
     return render(request, 'students/delete-student.html', {'student': student})
 
+@admin_required
 def add_student(request): 
     if request.method == 'POST': 
         # Récupérer les données de l'étudiant 

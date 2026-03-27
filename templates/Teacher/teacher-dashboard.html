@@ -37,8 +37,8 @@
             <div class="col-md-6 col-sm-6 col-lg-3">
                 <div class="dash-widget">
                     <div class="dash-widget-info">
-                        <h3>{{ total_courses }}</h3>
-                        <span>Courses</span>
+                        <h3>{{ total_subjects }}</h3>
+                        <span>Subjects</span>
                     </div>
                     <div class="dash-widget-icon">
                         <i class="fa fa-book"></i>
@@ -49,8 +49,8 @@
             <div class="col-md-6 col-sm-6 col-lg-3">
                 <div class="dash-widget">
                     <div class="dash-widget-info">
-                        <h3>{{ assignments_pending }}</h3>
-                        <span>Pending Assignments</span>
+                        <h3>{{ total_exams }}</h3>
+                        <span>Exams</span>
                     </div>
                     <div class="dash-widget-icon">
                         <i class="fa fa-tasks"></i>
@@ -61,8 +61,8 @@
             <div class="col-md-6 col-sm-6 col-lg-3">
                 <div class="dash-widget">
                     <div class="dash-widget-info">
-                        <h3>{{ messages_count }}</h3>
-                        <span>Messages</span>
+                        <h3>{{ total_timetable }}</h3>
+                        <span>Timetable Entries</span>
                     </div>
                     <div class="dash-widget-icon">
                         <i class="fa fa-envelope"></i>
@@ -91,17 +91,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for student in students %}
+                                    {% for student in recent_students %}
                                     <tr>
-                                        <td>{{ student.name }}</td>
-                                        <td>{{ student.email }}</td>
-                                        <td>{{ student.course.name }}</td>
+                                        <td>{{ student.user.first_name }} {{ student.user.last_name }}</td>
+                                        <td>{{ student.user.email }}</td>
+                                        <td>-</td>
                                         <td>
-                                            {% if student.is_active %}
-                                                <span class="badge badge-success">Active</span>
-                                            {% else %}
-                                                <span class="badge badge-danger">Inactive</span>
-                                            {% endif %}
+                                            <span class="badge badge-success">Active</span>
                                         </td>
                                     </tr>
                                     {% empty %}

@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Timetable
 from django.contrib import messages
+from school.decorators import teacher_required
 
+@teacher_required
 def timetable_list(request):
     data = Timetable.objects.all()
     return render(request, 'timetable/time-table.html', {'data': data})
 
+@teacher_required
 def add_timetable(request):
     if request.method == 'POST':
         Timetable.objects.create(
@@ -18,6 +21,7 @@ def add_timetable(request):
         return redirect('timetable_home')  # <-- corrigé ici
     return render(request, 'timetable/add-time-table.html')
 
+@teacher_required
 def edit_timetable(request, id):
     t = get_object_or_404(Timetable, id=id)
     if request.method == 'POST':
@@ -30,6 +34,7 @@ def edit_timetable(request, id):
         return redirect('timetable_home')  # <-- corrigé ici
     return render(request, 'timetable/edit-time-table.html', {'t': t})
 
+@teacher_required
 def delete_timetable(request, id):
     t = get_object_or_404(Timetable, id=id)
     t.delete()

@@ -1,24 +1,29 @@
-{% extends 'Home/base.html' %}
+{% extends 'base.html' %}
 
-{% block body %}
-
-<h2>Add Subject</h2>
-
-<form method="POST">
-    {% csrf_token %}
-
-    <input type="text" name="name" placeholder="Name" required><br><br>
-
-    <!-- 🔥 IMPORTANT -->
-    <select name="department" required>
-        <option value="">Select Department</option>
-        {% for d in departments %}
-            <option value="{{ d.id }}">{{ d.name }}</option>
-        {% endfor %}
-    </select>
-
-    <br><br>
-    <button type="submit">Save</button>
-</form>
-
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Add Subject</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Subject Name</label>
+                <input type="text" name="name" class="form-control" placeholder="Name" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Department</label>
+                <select name="department" class="form-select" required>
+                    <option value="">Select Department</option>
+                    {% for d in departments %}
+                        <option value="{{ d.id }}">{{ d.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{% url 'subject_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
 {% endblock %}
