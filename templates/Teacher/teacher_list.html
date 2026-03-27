@@ -1,0 +1,14 @@
+{% extends 'Home/base.html' %}
+
+{% block body %}
+<h2>Teacher List</h2>
+
+<a href="{% url 'add_teacher' %}">Add Teacher</a>
+
+<ul>
+    {% for teacher in teachers %}
+        <li>{{ teacher.name }} - {{ teacher.email }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

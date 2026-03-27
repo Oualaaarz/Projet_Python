@@ -1,0 +1,14 @@
+{% extends 'Home/base.html' %}
+
+{% block body %}
+<h2>Subject List</h2>
+
+<a href="{% url 'add_subject' %}">Add Subject</a>
+
+<ul>
+    {% for s in subjects %}
+        <li>{{ s.name }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

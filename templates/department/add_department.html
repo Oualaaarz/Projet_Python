@@ -1,0 +1,13 @@
+{% extends 'Home/base.html' %}
+
+{% block body %}
+
+<h2>Add Department</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Name"><br><br>
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}

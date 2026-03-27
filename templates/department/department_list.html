@@ -1,0 +1,14 @@
+{% extends 'Home/base.html' %}
+
+{% block body %}
+<h2>Department List</h2>
+
+<a href="{% url 'add_department' %}">Add Department</a>
+
+<ul>
+    {% for d in departments %}
+        <li>{{ d.name }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

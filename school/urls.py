@@ -25,5 +25,10 @@ urlpatterns = [
     path('authentication/', include('home_auth.urls')), 
     path('student/dashboard/', views.student_dashboard, name='student_dashboard'),
     path('teacher/dashboard/', views.teacher_dashboard, name='teacher_dashboard'),
-] 
+    path('teachers/', include('teacher.urls')),
+    path('departments/', include('department.urls')),
+    path('subjects/', include('subject.urls')),
+
+]
+
 

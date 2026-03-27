@@ -1,0 +1,24 @@
+{% extends 'Home/base.html' %}
+
+{% block body %}
+
+<h2>Add Subject</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Name" required><br><br>
+
+    <!-- 🔥 IMPORTANT -->
+    <select name="department" required>
+        <option value="">Select Department</option>
+        {% for d in departments %}
+            <option value="{{ d.id }}">{{ d.name }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}
