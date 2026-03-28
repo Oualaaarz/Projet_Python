@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Edit Subject</h3>
+    </div>
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" value="{{ subject.name }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Department</label>
+                <select name="department" class="form-control" required>
+                    {% for dept in departments %}
+                    <option value="{{ dept.id }}" {% if dept.id==subject.department.id %}selected{% endif %}>{{
+                        dept.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Update</button>
+            <a href="{% url 'subject_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

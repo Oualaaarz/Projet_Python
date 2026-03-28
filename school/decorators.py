@@ -39,7 +39,7 @@ def student_or_admin_required(view_func):
     return wrapper
 
 def any_authenticated_required(view_func):
-    """Décorateur pour restreindre l'accès à tous les utilisateurs authentifiés"""
+     
     @wraps(view_func)
     def wrapper(request, *args, **kwargs):
         if not request.user.is_authenticated:

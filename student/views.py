@@ -68,7 +68,7 @@ def student_dashboard(request):
 @admin_required
 def student_list(request): 
     students = Student.objects.all()
-    return render(request, 'students/students.html', {'students': students})
+    return render(request, 'students/students.html', {'student_list': students})
 
 @admin_required
 def edit_student(request, student_id):
