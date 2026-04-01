@@ -1,15 +1,32 @@
- {% extends 'base.html' %}
-{% block content %}
-
-<h3>Add Exam</h3>
-
-<form method="post">
-{% csrf_token %}
-<input class="form-control mb-2" name="name" placeholder="Exam Name">
-<input class="form-control mb-2" name="subject" placeholder="Subject">
-<input class="form-control mb-2" type="date" name="date">
-<input class="form-control mb-2" type="number" name="max_marks" placeholder="Max Marks">
-<button class="btn btn-success">Save</button>
-</form>
-
+{% extends 'Home/base.html' %}
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Add Exam</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'exams_home' %}">Exams</a></li>
+                        <li class="breadcrumb-item active">Add Exam</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3"><label class="form-label">Name</label><input class="form-control" name="name" placeholder="Exam Name"></div>
+                    <div class="mb-3"><label class="form-label">Subject</label><input class="form-control" name="subject" placeholder="Subject"></div>
+                    <div class="mb-3"><label class="form-label">Date</label><input class="form-control" type="date" name="date"></div>
+                    <div class="mb-3"><label class="form-label">Max Marks</label><input class="form-control" type="number" name="max_marks" placeholder="Max Marks"></div>
+                    <button class="btn btn-success">Save</button>
+                    <a href="{% url 'exams_home' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

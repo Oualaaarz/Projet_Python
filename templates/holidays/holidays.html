@@ -1,9 +1,23 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="page-header d-sm-flex d-block align-items-center justify-content-between">
-    <h3 class="mb-0">Holidays</h3>
-    <a href="{% url 'add_holiday' %}" class="btn btn-primary mb-3">Add Holiday</a>
-</div>
+{% extends 'Home/base.html' %}
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Holidays</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Holidays</li>
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    {% if user.is_teacher or user.is_admin %}
+                    <a href="{% url 'add_holiday' %}" class="btn btn-primary"><i class="fas fa-plus me-1"></i> Add Holiday</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -23,8 +37,11 @@
                         <td>{{ h.start_date }}</td>
                         <td>{{ h.end_date }}</td>
                         <td class="text-end">
-                            <a href="{% url 'edit_holiday' h.id %}" class="btn btn-warning btn-sm me-1">Edit</a>
-                            <a href="{% url 'delete_holiday' h.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            {% if user.is_teacher or user.is_admin %}
+                            <a href="{% url 'edit_holiday' h.id %}" class="btn btn-info btn-sm me-1" title="View"><i class="fas fa-eye"></i></a>
+                            <a href="{% url 'edit_holiday' h.id %}" class="btn btn-success btn-sm me-1" title="Edit"><i class="fas fa-pen"></i></a>
+                            <a href="{% url 'delete_holiday' h.id %}" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash"></i></a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% empty %}

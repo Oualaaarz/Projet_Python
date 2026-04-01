@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse 
 from django.contrib import messages
-from school.decorators import admin_required, any_authenticated_required
+from school.decorators import role_required, any_authenticated_required
 from .models import Student, Parent 
 from teacher.models import Teacher
 from department.models import Department
@@ -65,14 +65,20 @@ def student_dashboard(request):
     }
     return render(request, 'students/student-dashboard.html', context)
 
-@admin_required
+@role_required('teacher', 'admin')
 def student_list(request): 
     students = Student.objects.all()
     return render(request, 'students/students.html', {'student_list': students})
 
-@admin_required
+@role_required('admin')
 def edit_student(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
+    student = get_object_or_404(Student, student_id=student_id)
+
+    # Check permissions: admin can edit all, student can edit own
+    if not (request.user.is_admin or (request.user.is_student and student.student_id == request.user.username)):
+        messages.error(request, "Vous ne pouvez modifier que votre propre profil.")
+        return redirect('student_list')
+
     parent = student.parent  # <-- AJOUTÉ pour le template
 
     if request.method == 'POST':
@@ -114,11 +120,26 @@ def edit_student(request, student_id):
 
 @any_authenticated_required
 def view_student(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
-    return render(request, 'students/student-details.html', {'student': student})
-@admin_required
+    student = get_object_or_404(Student, student_id=student_id)
+
+    # Check permissions: admin can view all, teacher can view all, student can view only their own
+    if request.user.is_student and student.student_id != request.user.username:
+        messages.error(request, "Vous ne pouvez voir que votre propre profil.")
+        return redirect('student_dashboard')
+
+    total_students = Student.objects.count()
+    total_teachers = Teacher.objects.count()
+    total_subjects = Subject.objects.count()
+
+    return render(request, 'students/student-details.html', {
+        'student': student,
+        'total_students': total_students,
+        'total_teachers': total_teachers,
+        'total_subjects': total_subjects,
+    })
+@role_required('admin')
 def delete_student(request, student_id):
-    student = get_object_or_404(Student, id=student_id)
+    student = get_object_or_404(Student, student_id=student_id)
 
     if request.method == 'POST':
         student.delete()
@@ -126,7 +147,7 @@ def delete_student(request, student_id):
 
     return render(request, 'students/delete-student.html', {'student': student})
 
-@admin_required
+@role_required('admin')
 def add_student(request): 
     if request.method == 'POST': 
         # Récupérer les données de l'étudiant 

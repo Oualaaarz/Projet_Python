@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from school.decorators import admin_required
+from school.decorators import admin_required, any_authenticated_required
 from .models import Department
 
-@admin_required
+@any_authenticated_required
 def department_list(request):
     departments = Department.objects.all()
     return render(request, 'department/department_list.html', {'departments': departments})

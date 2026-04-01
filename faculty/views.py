@@ -40,4 +40,4 @@ def dashboard(request):
         'upcoming_exams': upcoming_exams,
     }
     
-    return render(request, 'students/student-dashboard.html', context) 
+    return render(request, 'Home/index.html', context) 

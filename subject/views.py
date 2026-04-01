@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Subject
 from department.models import Department
 from django.contrib import messages
-from school.decorators import teacher_required
+from school.decorators import role_required, any_authenticated_required
 
 # 🔴 LIST
-@teacher_required
+@any_authenticated_required
 def subject_list(request):
     subjects = Subject.objects.all()
     return render(request, 'subject/subject_list.html', {'subjects': subjects})
 
 
 # 🔴 ADD
-@teacher_required
+@role_required('teacher', 'admin')
 def add_subject(request):
     departments = Department.objects.all()
 
@@ -36,7 +36,7 @@ def add_subject(request):
 
 
 # 🔴 EDIT
-@teacher_required
+@role_required('teacher', 'admin')
 def edit_subject(request, id):
     subject = get_object_or_404(Subject, id=id)
     departments = Department.objects.all()
@@ -58,7 +58,7 @@ def edit_subject(request, id):
 
 
 # 🔴 DELETE
-@teacher_required
+@role_required('teacher', 'admin')
 def delete_subject(request, id):
     subject = get_object_or_404(Subject, id=id)
     subject.delete()

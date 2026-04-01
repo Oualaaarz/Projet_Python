@@ -1,11 +1,22 @@
-{% extends 'base.html' %}
+{% extends 'Home/base.html' %}
 
-{% block content %}
-<div class="card">
-    <div class="card-header">
-        <h3>Edit Teacher</h3>
-    </div>
-    <div class="card-body">
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Edit Teacher</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'teacher_list' %}">Teachers</a></li>
+                        <li class="breadcrumb-item active">Edit Teacher</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
         <form method="POST">
             {% csrf_token %}
             <div class="mb-3">

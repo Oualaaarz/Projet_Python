@@ -1,15 +1,32 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<h3>Edit Exam</h3>
-
-<form method="post">
-{% csrf_token %}
-<input class="form-control mb-2" name="name" value="{{ exam.name }}">
-<input class="form-control mb-2" name="subject" value="{{ exam.subject }}">
-<input class="form-control mb-2" type="date" name="date" value="{{ exam.date }}">
-<input class="form-control mb-2" type="number" name="max_marks" value="{{ exam.max_marks }}">
-<button class="btn btn-success">Update</button>
-</form>
-
+{% extends 'Home/base.html' %}
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Edit Exam</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'exams_home' %}">Exams</a></li>
+                        <li class="breadcrumb-item active">Edit Exam</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3"><label class="form-label">Name</label><input class="form-control" name="name" value="{{ exam.name }}"></div>
+                    <div class="mb-3"><label class="form-label">Subject</label><input class="form-control" name="subject" value="{{ exam.subject }}"></div>
+                    <div class="mb-3"><label class="form-label">Date</label><input class="form-control" type="date" name="date" value="{{ exam.date }}"></div>
+                    <div class="mb-3"><label class="form-label">Max Marks</label><input class="form-control" type="number" name="max_marks" value="{{ exam.max_marks }}"></div>
+                    <button class="btn btn-success">Update</button>
+                    <a href="{% url 'exams_home' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

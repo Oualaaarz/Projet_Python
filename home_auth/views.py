@@ -35,7 +35,6 @@ def signup_view(request):
         messages.success(request, 'Signup successful!') 
         return redirect('index') 
     return render(request, 'authentication/register.html')
-@csrf_exempt  # Activer temporairement pour contourner les erreurs 403 CSRF en dev
 @csrf_protect
 def login_view(request): 
     # Le token CSRF est validé par CsrfViewMiddleware, mais parfois l'ancienne page garde un token périmé.
@@ -55,7 +54,7 @@ def login_view(request):
             elif user.is_teacher: 
                 return redirect('teacher_dashboard') 
             elif user.is_student: 
-                return redirect('dashboard') 
+                return redirect('student_dashboard') 
             else: 
                 messages.error(request, 'Invalid user role') 
                 return redirect('index') 

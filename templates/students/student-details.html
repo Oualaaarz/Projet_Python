@@ -24,7 +24,11 @@
 <div class="about-info">
 <h4>About Me</h4>
 <div class="media mt-3">
-<img src="{{student.student_image ? student.student_image.url : ''}}" class="mr-3" alt="...">
+{% if student.student_image %}
+    <img src="{{ student.student_image.url }}" class="mr-3" alt="{{ student.first_name }} {{ student.last_name }}">
+{% else %}
+    <img src="{% static 'assets/img/profile_placeholder.png' %}" class="mr-3" alt="No Image">
+{% endif %}
 <div class="media-body">
 <ul>
 <li>
@@ -56,39 +60,39 @@
 </div>
 <div class="row mt-3">
 <div class="col-md-12">
-<p>Hello I am Daisy Parks. Lorem Ipsum is simply dummy text of the printing and typesetting industry, simply dummy text of the printing and typesetting industry.</p>
+<p>{{ student.first_name }} {{ student.last_name }} est un(e) étudiant(e) en classe {{ student.student_class }} (section {{ student.section }}). Numéro d'admission : {{ student.admission_number }}.</p>
 </div>
 </div>
 <div class="row follow-sec">
 <div class="col-md-4 mb-3">
 <div class="blue-box">
-<h3>2850</h3>
-<p>Followers</p>
+<h3>{{ total_students|default:0 }}</h3>
+<p>Students Total</p>
 </div>
 </div>
 <div class="col-md-4 mb-3">
 <div class="blue-box">
-<h3>2050</h3>
-<p>Following</p>
+<h3>{{ total_teachers|default:0 }}</h3>
+<p>Teachers Total</p>
 </div>
 </div>
 <div class="col-md-4 mb-3">
 <div class="blue-box">
-<h3>2950</h3>
-<p>Friends</p>
+<h3>{{ total_subjects|default:0 }}</h3>
+<p>Subjects Total</p>
 </div>
 </div>
 </div>
 <div class="row mt-2">
 <div class="col-md-12">
 <h5>Permanent Address</h5>
-<p>480, Estern Avenue, Courtage area, New York</p>
+<p>{{ student.parent.permanent_address|default:'N/A' }}</p>
 </div>
 </div>
 <div class="row mt-2">
 <div class="col-md-12">
 <h5>Present Address</h5>
-<p>480, Estern Avenue, Courtage area, New York</p>
+<p>{{ student.parent.present_address|default:'N/A' }}</p>
 </div>
 </div>
 </div>

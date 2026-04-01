@@ -93,8 +93,8 @@
                                 <tbody>
                                     {% for student in recent_students %}
                                     <tr>
-                                        <td>{{ student.user.first_name }} {{ student.user.last_name }}</td>
-                                        <td>{{ student.user.email }}</td>
+                                        <td>{{ student.first_name }} {{ student.last_name }}</td>
+                                        <td>{{ student.mobile_number }}</td>
                                         <td>-</td>
                                         <td>
                                             <span class="badge badge-success">Active</span>

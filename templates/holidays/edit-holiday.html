@@ -1,11 +1,21 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<div class="card">
-  <div class="card-header">
-    <h3>Edit Holiday</h3>
-  </div>
-  <div class="card-body">
+{% extends 'Home/base.html' %}
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Edit Holiday</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'holidays_home' %}">Holidays</a></li>
+                        <li class="breadcrumb-item active">Edit Holiday</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
     <form method="post">
       {% csrf_token %}
       <div class="mb-3">
@@ -25,9 +35,11 @@
         <textarea name="description" class="form-control" rows="3">{{ holiday.description }}</textarea>
       </div>
       <button type="submit" class="btn btn-success">Update Holiday</button>
-      <a href="{% url 'holidays' %}" class="btn btn-secondary">Cancel</a>
+      <a href="{% url 'holidays_home' %}" class="btn btn-secondary">Cancel</a>
     </form>
-  </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

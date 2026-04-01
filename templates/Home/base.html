@@ -80,7 +80,7 @@
                         </div>
                         <a class="dropdown-item" href="profile.html">My Profile</a>
                         <a class="dropdown-item" href="inbox.html">Inbox</a>
-                        <a class="dropdown-item" href="">Logout</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -106,9 +106,7 @@
                                     Students</span> <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{% url 'student_list' %}">Student List</a></li>
-                                <li><a href="{% url 'student_list' %}">Student View</a></li>
                                 <li><a href="{% url 'add_student' %}">Student Add</a></li>
-                                <li><a href="{% url 'student_list' %}">Student Edit</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -128,7 +126,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="{% url 'subject_list' %}"><i class="fas fa-book-reader"></i> <span> Subjects</span>
+                            <a href="#"><i class="fas fa-book-reader"></i> <span> Subjects</span>
                                 <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{% url 'subject_list' %}">Subject List</a></li>
@@ -151,7 +149,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="{% url 'holidays_home' %}"><i class="fas fa-holly-berry"></i> <span>Holidays</span>
+                            <a href="#"><i class="fas fa-holly-berry"></i> <span>Holidays</span>
                                 <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{% url 'holidays_home' %}">Holiday List</a></li>
@@ -159,7 +157,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="{% url 'exams_home' %}"><i class="fas fa-clipboard-list"></i> <span>Exams</span>
+                            <a href="#"><i class="fas fa-clipboard-list"></i> <span>Exams</span>
                                 <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{% url 'exams_home' %}">Exam List</a></li>
@@ -167,7 +165,7 @@
                             </ul>
                         </li>
                         <li class="submenu">
-                            <a href="{% url 'timetable_home' %}"><i class="fas fa-table"></i> <span>Time Table</span>
+                            <a href="#"><i class="fas fa-table"></i> <span>Time Table</span>
                                 <span class="menu-arrow"></span></a>
                             <ul>
                                 <li><a href="{% url 'timetable_home' %}">Time Table List</a></li>

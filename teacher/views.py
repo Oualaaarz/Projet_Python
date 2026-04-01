@@ -2,17 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Teacher
 from department.models import Department
 from django.contrib import messages
-from school.decorators import teacher_required
+from school.decorators import role_required, any_authenticated_required
 
 # 🔴 LIST
-@teacher_required
+@role_required('teacher', 'admin')
 def teacher_list(request):
     teachers = Teacher.objects.all()
     return render(request, 'teacher/teacher_list.html', {'teachers': teachers})
 
 
 # 🔴 ADD
-@teacher_required
+@role_required('admin')
 def add_teacher(request):
     departments = Department.objects.all()
 
@@ -38,9 +38,14 @@ def add_teacher(request):
 
 
 # 🔴 EDIT
-@teacher_required
 def edit_teacher(request, id):
     teacher = get_object_or_404(Teacher, id=id)
+
+    # Check permissions: admin can edit all, teacher can edit own
+    if not (request.user.is_admin or (request.user.is_teacher and teacher.email == request.user.email)):
+        messages.error(request, "Vous ne pouvez modifier que votre propre profil.")
+        return redirect('teacher_list')
+
     departments = Department.objects.all()
 
     if request.method == "POST":
@@ -61,7 +66,7 @@ def edit_teacher(request, id):
 
 
 # 🔴 DELETE
-@teacher_required
+@role_required('admin')
 def delete_teacher(request, id):
     teacher = get_object_or_404(Teacher, id=id)
     teacher.delete()
@@ -69,7 +74,16 @@ def delete_teacher(request, id):
     messages.success(request, "Teacher deleted successfully!")
     return redirect('teacher_list')
 
-@teacher_required
+@role_required('teacher', 'admin')
 def teacher_detail(request, id):
     teacher = get_object_or_404(Teacher, id=id)
+
+    # Check permissions: admin can view all, teacher can view own, student cannot
+    if request.user.is_student:
+        messages.error(request, "Accès refusé.")
+        return redirect('student_dashboard')
+    if request.user.is_teacher and teacher.email != request.user.email:  # Assuming email is unique and used for login
+        messages.error(request, "Vous ne pouvez voir que votre propre profil.")
+        return redirect('teacher_dashboard')
+
     return render(request, 'teacher/teacher_detail.html', {'teacher': teacher})

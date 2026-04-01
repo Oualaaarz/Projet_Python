@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Holiday
 from django.contrib import messages
-from school.decorators import admin_required
+from school.decorators import role_required, any_authenticated_required
 
-@admin_required
+@any_authenticated_required
 def holidays_list(request):
     holidays = Holiday.objects.all()
     return render(request, 'holidays/holidays.html', {'holidays': holidays})
 
-@admin_required
+@role_required('admin')
 def add_holiday(request):
     if request.method == 'POST':
         Holiday.objects.create(
@@ -21,7 +21,7 @@ def add_holiday(request):
         return redirect('holidays_home')  # <-- corrigé
     return render(request, 'holidays/add-holiday.html')
 
-@admin_required
+@role_required('admin')
 def edit_holiday(request, id):
     holiday = get_object_or_404(Holiday, id=id)
     if request.method == 'POST':
@@ -34,7 +34,7 @@ def edit_holiday(request, id):
         return redirect('holidays_home')  # <-- corrigé
     return render(request, 'holidays/edit-holiday.html', {'holiday': holiday})
 
-@admin_required
+@role_required('admin')
 def delete_holiday(request, id):
     holiday = get_object_or_404(Holiday, id=id)
     holiday.delete()

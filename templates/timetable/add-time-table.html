@@ -1,14 +1,32 @@
-{% extends 'base.html' %}
-{% block content %}
-
-<h3>Add Time Table</h3>
-<form method="post">
-{% csrf_token %}
-<input class="form-control mb-2" name="day" placeholder="Day">
-<input class="form-control mb-2" name="subject" placeholder="Subject">
-<input class="form-control mb-2" type="time" name="start_time">
-<input class="form-control mb-2" type="time" name="end_time">
-<button class="btn btn-success">Save</button>
-</form>
-
+{% extends 'Home/base.html' %}
+{% block body %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Add Time Table</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'timetable_home' %}">Time Table</a></li>
+                        <li class="breadcrumb-item active">Add Entry</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3"><label class="form-label">Day</label><input class="form-control" name="day" placeholder="Day"></div>
+                    <div class="mb-3"><label class="form-label">Subject</label><input class="form-control" name="subject" placeholder="Subject"></div>
+                    <div class="mb-3"><label class="form-label">Start Time</label><input class="form-control" type="time" name="start_time"></div>
+                    <div class="mb-3"><label class="form-label">End Time</label><input class="form-control" type="time" name="end_time"></div>
+                    <button class="btn btn-success">Save</button>
+                    <a href="{% url 'timetable_home' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
